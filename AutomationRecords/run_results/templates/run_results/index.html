@@ -1,0 +1,53 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+<table class="table">
+{% if testresult_list %}
+
+    {% for testresult in testresult_list %}
+
+            <tr bgcolor="lightgray">
+                <td colspan="2">{{ testresult.run_date }}</td>
+                <td>{{ testresult.overall_status }}</td>
+                <td>{{ testresult.suite }}</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <table class="table table-sm table-hover table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="10%">Browser</th>
+                                <th scope="col" width="15%">Host</th>
+                                <th scope="col" width="5%">Pass</th>
+                                <th scope="col" width="5%">Fail</th>
+                                <th scope="col" width="5%">Skipped</th>
+                                <th scope="col">Report Path</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for browserreport in testresult.browserreport_set.all %}
+                            <tr role="row">
+                                <td>{{ browserreport.browser }}</td>
+                                <td>{{ browserreport.hostname }}</td>
+                                <td>{{ browserreport.pass_count }}</td>
+                                <td>{{ browserreport.fail_count }}</td>
+                                {% if browserreport.skip_count > 0 %}
+                                    <td class="table-warning">{{ browserreport.skip_count }}</td>
+                                {% else %}
+                                    <td>{{ browserreport.skip_count }}</td>
+                                {% endif %}
+                                <td>{{ browserreport.report_path }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+    {% endfor %}
+
+{% else %}
+    <p>No results are available.</p>
+{% endif %}
+</table>

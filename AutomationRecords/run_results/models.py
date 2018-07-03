@@ -32,7 +32,7 @@ class BrowserReport(models.Model):
     pass_count = models.IntegerField()
     fail_count = models.IntegerField()
     skip_count = models.IntegerField()
-    defects = models.CharField(max_length=100)
+    defects = models.CharField(max_length=100, blank=True)
     reviewer = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
     rca = models.CharField(max_length=2000, blank=True)
     action_plan = models.CharField(max_length=1000, blank=True)
